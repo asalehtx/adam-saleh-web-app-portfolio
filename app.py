@@ -67,20 +67,6 @@ def project_detail(project_id):
         return render_template('project.html', project=project)
     return "Project not found", 404
 
-# --- LIVE API DEMO ENDPOINT ---
-@app.route('/api/v1/weather-demo')
-def weather_demo():
-    """A live demonstration endpoint to show off your API skills."""
-    return jsonify({
-        "status": "success",
-        "data": {
-            "location": "Chicago, IL",
-            "temperature_c": 22,
-            "condition": "Partly Cloudy"
-        },
-        "message": "This is a live demo endpoint hosted directly on my portfolio!"
-    })
-
 # --- USER CONFIGURATION MANAGER API ---
 
 @app.route('/api/users/<user_id>/settings', methods=['GET'])

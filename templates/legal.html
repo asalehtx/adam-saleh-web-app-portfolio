@@ -155,7 +155,88 @@
     font-size: 14px; 
 }
 .bot { background: #e9ecef; align-self: flex-start; color: #333; }
-.user { background: #007bff; color: white;
+.user { background: #007bff; color: white; align-self: flex-end; }
+
+/* --- 4. Disclaimer Area --- */
+.chat-input-area {
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    background: white;
+    display: flex;
+    flex-direction: column; 
+}
+
+.disclaimer-container {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 8px;
+}
+
+.disclaimer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 12px;
+    user-select: none;
+}
+
+.law-label { 
+    font-weight: bold; 
+    color: #007bff; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+}
+
+.disclaimer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    font-size: 11px;
+    color: #888;
+    line-height: 1.3;
+}
+.disclaimer-content.show { max-height: 100px; margin: 5px 0; }
+
+#disclaimer-arrow { transition: transform 0.3s; font-size: 10px; color: #666; }
+.rotate { transform: rotate(180deg); }
+
+/* --- 5. Input Controls --- */
+.input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+}
+
+#user-input {
+    flex: 1;
+    height: 45px; 
+    padding: 0 15px; 
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 16px; /* Prevents mobile auto-zoom */
+    outline: none;
+    box-sizing: border-box; 
+}
+
+.chat-input-area button {
+    height: 45px; 
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0 20px; 
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; 
+    transition: background 0.2s;
+}
+.chat-input-area button:hover { background: #0056b3; }
 </style>
 
 <script>

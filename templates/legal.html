@@ -216,6 +216,9 @@
 
         if (!message) return;
 
+    // --- NEW: Stop the nudge timer because the user responded ---
+    clearTimeout(nudgeTimer);
+
         // 1. Add User Message to UI
         chatBox.innerHTML += `<div class="msg user">${message}</div>`;
         input.value = '';
@@ -232,6 +235,10 @@
             
             // 3. Add Bot Reply to UI
             chatBox.innerHTML += `<div class="msg bot">${data.reply}</div>`;
+
+            // --- NEW: Start the timer again now that the bot has finished speaking ---
+            startNudgeTimer();
+
         } catch (error) {
             chatBox.innerHTML += `<div class="msg bot" style="color: #dc3545;">Connection error. Please try again.</div>`;
         }

@@ -23,84 +23,25 @@
     </div>
 
     <div class="chat-input-area">
-    <div class="disclaimer-container">
-        <div class="disclaimer-header" onclick="toggleDisclaimer()">
-            <span class="law-label">Rahgozar Law AI</span>
-            <span id="disclaimer-arrow">▼</span>
+        <div class="disclaimer-container">
+            <div class="disclaimer-header" onclick="toggleDisclaimer()">
+                <span class="law-label">Rahgozar Law AI</span>
+                <span id="disclaimer-arrow">▼</span>
+            </div>
+            <div id="disclaimer-text" class="disclaimer-content">
+                This chat does not create an attorney‑client relationship. Please do not provide any confidential information until such time as an attorney‑client relationship has been established.
+            </div>
         </div>
-        <div id="disclaimer-text" class="disclaimer-content">
-            This chat does not create an attorney‑client relationship. Please do not provide any confidential information until such time as an attorney‑client relationship has been established.
-        </div>
-    </div>
 
-    <div class="input-row">
-        <input type="text" id="user-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)" />
-        <button onclick="sendMessage()">Send</button>
+        <div class="input-row">
+            <input type="text" id="user-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)" />
+            <button onclick="sendMessage()">Send</button>
+        </div>
     </div>
-</div>
 </div>
 
 <style>
-    /* Container for the label and hidden text */
-.disclaimer-container {
-    padding: 5px 10px;
-    border-bottom: 1px solid #eee;
-    background: #fff;
-}
-
-.disclaimer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-size: 12px;
-    color: #666;
-    user-select: none;
-}
-
-.law-label {
-    font-weight: bold;
-    color: #007bff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Hidden by default */
-.disclaimer-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    font-size: 11px;
-    color: #888;
-    line-height: 1.3;
-    margin-top: 0;
-}
-
-/* Class to reveal the text via JS */
-.disclaimer-content.show {
-    max-height: 100px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-/* Arrow rotation */
-#disclaimer-arrow {
-    transition: transform 0.3s;
-    font-size: 10px;
-}
-
-.rotate {
-    transform: rotate(180deg);
-}
-
-/* Adjust the input row to sit below the disclaimer */
-.input-row {
-    display: flex;
-    gap: 10px;
-    padding-top: 10px;
-}
-
-    /* Floating Button Styles */
+    /* --- 1. Floating Widget UI --- */
     #chat-widget-button {
         position: fixed;
         bottom: 30px;
@@ -121,14 +62,13 @@
     }
     #chat-widget-button:hover { transform: scale(1.1); }
 
-    /* Floating Window Styles */
     .chat-container {
         position: fixed;
         bottom: 110px;
         right: 30px;
         width: 380px;
         height: 550px;
-        max-width: 90vw; /* Responsive for mobile */
+        max-width: 90vw;
         max-height: 70vh;
         background: white;
         border-radius: 15px;
@@ -139,6 +79,7 @@
         z-index: 1001;
     }
 
+    /* --- 2. Chat Header & Messages --- */
     .chat-header {
         background: #007bff;
         color: white;
@@ -159,31 +100,85 @@
         gap: 10px;
     }
 
-    .msg { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; }
+    .msg { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; font-size: 14px; }
     .bot { background: #e9ecef; align-self: flex-start; color: #333; }
     .user { background: #007bff; color: white; align-self: flex-end; }
 
+    /* --- 3. Disclaimer & Input Area --- */
     .chat-input-area {
-        padding: 15px;
+        padding: 10px 15px;
         border-top: 1px solid #eee;
+        background: white;
+        display: flex;
+        flex-direction: column; /* Stacks disclaimer and input vertically */
+    }
+
+    .disclaimer-container {
+        padding: 5px 0;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 8px;
+    }
+
+    .disclaimer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-size: 12px;
+        user-select: none;
+    }
+
+    .law-label { font-weight: bold; color: #007bff; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .disclaimer-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        font-size: 11px;
+        color: #888;
+        line-height: 1.3;
+    }
+
+    .disclaimer-content.show { max-height: 100px; margin: 5px 0; }
+
+    #disclaimer-arrow { transition: transform 0.3s; font-size: 10px; color: #666; }
+    .rotate { transform: rotate(180deg); }
+
+    /* --- 4. Input Controls --- */
+    .input-row {
         display: flex;
         gap: 10px;
+        align-items: center;
+        width: 100%;
     }
 
-    /* PREVENT ZOOM: Font-size MUST be 16px */
     #user-input {
         flex: 1;
-        padding: 10px;
+        padding: 10px 15px;
         border: 1px solid #ddd;
         border-radius: 20px;
-        font-size: 16px; 
+        font-size: 16px; /* Prevents mobile auto-zoom */
         outline: none;
+        min-width: 0;
     }
 
+    .chat-input-area button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+
+    .chat-input-area button:hover { background: #0056b3; }
     .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
 </style>
 
 <script>
+    // Toggle Chat Window visibility
     function toggleChat() {
         const chatWindow = document.getElementById('chat-widget-window');
         const isHidden = chatWindow.style.display === 'none';
@@ -191,10 +186,20 @@
         if (isHidden) document.getElementById('user-input').focus();
     }
 
+    // Toggle Legal Disclaimer text
+    function toggleDisclaimer() {
+        const content = document.getElementById('disclaimer-text');
+        const arrow = document.getElementById('disclaimer-arrow');
+        content.classList.toggle('show');
+        arrow.classList.toggle('rotate');
+    }
+
+    // Handle Enter key for sending messages
     function handleKeyPress(event) {
         if (event.key === 'Enter') sendMessage();
     }
 
+    // AJAX Call to Python Backend (Gemini 2.5 Flash)
     async function sendMessage() {
         const input = document.getElementById('user-input');
         const chatBox = document.getElementById('chat-box');
@@ -202,12 +207,13 @@
 
         if (!message) return;
 
-        // Append user message
+        // 1. Add User Message to UI
         chatBox.innerHTML += `<div class="msg user">${message}</div>`;
         input.value = '';
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
+            // 2. Fetch response from Flask API
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -215,21 +221,14 @@
             });
             const data = await response.json();
             
+            // 3. Add Bot Reply to UI
             chatBox.innerHTML += `<div class="msg bot">${data.reply}</div>`;
         } catch (error) {
-            chatBox.innerHTML += `<div class="msg bot" style="color: red;">Connection error. Please try again.</div>`;
+            chatBox.innerHTML += `<div class="msg bot" style="color: #dc3545;">Connection error. Please try again.</div>`;
         }
+        
+        // 4. Scroll to bottom
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-    function toggleDisclaimer() {
-    const content = document.getElementById('disclaimer-text');
-    const arrow = document.getElementById('disclaimer-arrow');
-    
-    // Toggle the 'show' class for the text
-    content.classList.toggle('show');
-    
-    // Rotate the arrow
-    arrow.classList.toggle('rotate');
-}
 </script>
 {% endblock %}

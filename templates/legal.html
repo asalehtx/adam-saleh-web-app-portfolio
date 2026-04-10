@@ -14,8 +14,13 @@
 
 <div id="chat-widget-window" class="chat-container" style="display: none;">
     <div class="chat-header">
-        <span>Rahgozar Law Assistant</span>
+        <div class="chat-header">
+        <div class="header-profile">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Paralegal Avatar" class="avatar">
+            <span>Rahgozar Law Assistant</span>
+        </div>
         <button onclick="toggleChat()" class="close-btn">&minus;</button>
+    </div>
     </div>
 
     <div id="chat-box" class="chat-box">
@@ -80,6 +85,21 @@
     }
 
     /* --- 2. Chat Header & Messages --- */
+    .header-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Adds perfect spacing between the picture and the text */
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%; /* Makes it a perfect circle */
+        object-fit: cover; /* Prevents the image from looking squished */
+        border: 2px solid white; /* Adds a clean, professional ring around the photo */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
     .chat-header {
         background: #007bff;
         color: white;

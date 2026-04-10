@@ -3,7 +3,6 @@ Adam Saleh - Web App Portfolio 🚀
 A full-stack portfolio demonstrating RESTful API design, frontend JavaScript integration, and responsive CSS. Built with Python and Flask, this application serves as both an interactive developer portfolio and a live demonstration of three custom-built backend engines.
 
 View Live Deployment: https://adam-saleh-web-app-portfolio.up.railway.app
-(Note: Replace this link with your actual live Railway URL)
 
 TECH STACK
 Backend: Python, Flask, REST APIs, Gunicorn
@@ -15,6 +14,7 @@ Data Visualization: Chart.js
 Deployment: Railway
 
 FEATURED PROJECTS
+
 Personal Finance Dashboard (Full-Stack)
 A complete, interactive financial tracking application that functions without page reloads.
 

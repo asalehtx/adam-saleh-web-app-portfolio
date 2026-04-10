@@ -97,7 +97,7 @@ PROJECTS = [
         "tech_stack": ["Python", "Flask", "Gemini API", "JavaScript", "CSS"],
         "github_url": "https://github.com/asalehtx/adam-saleh-web-app-portfolio",
         "live_demo": "/api/chat",
-        "dashboard_url": "/legal-chat"
+        "live_demo_url": "/legal-chat"
     },
     {
         "id": 3,

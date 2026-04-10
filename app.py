@@ -76,7 +76,7 @@ PROJECTS = [
         "live_demo": "/api/users/user_1/feed" 
     },
     {
-        "id": 3,
+        "id": 1,
         "title": "User Configuration Manager",
         "description": "A complete CRUD REST API that allows applications to store, retrieve, modify, and delete user preferences (theme, language, etc).",
         "tech_stack": ["Python", "Flask", "REST API"],

@@ -63,7 +63,7 @@ PROJECTS = [
         "title": "Personal Finance Dashboard & API",
         "description": "A full-stack financial tracking application. The backend is powered by a Flask REST API that handles data aggregation, checks spending against dynamic budget limits, and generates CSV reports. The frontend features a fully responsive UI with asynchronous CRUD operations and real-time Chart.js data visualization, including categorical pie charts and interactive time-series line graphs with custom data grouping.",
         "tech_stack": ["Python", "Flask", "JavaScript", "Chart.js", "CSS Flexbox"],
-        "github_url": "https://github.com/asalehtx/flask-portfolio",
+        "github_url": "https://github.com/asalehtx/adam-saleh-web-app-portfolio",
         "live_demo": "/api/finance/summary",
         "dashboard_url": "/finance-dashboard"
     },
@@ -72,7 +72,7 @@ PROJECTS = [
         "title": "Content Feed & Subscription API",
         "description": "A RESTful service that implements a basic Pub/Sub model. Users can subscribe to topics of interest, retrieve a personalized feed of articles, and receive topic recommendations.",
         "tech_stack": ["Python", "Flask", "Data Filtering"],
-        "github_url": "https://github.com/asalehtx/flask-portfolio",
+        "github_url": "https://github.com/asalehtx/adam-saleh-web-app-portfolio",
         "live_demo": "/api/users/user_1/feed" 
     },
     {
@@ -80,7 +80,7 @@ PROJECTS = [
         "title": "User Configuration Manager",
         "description": "A complete CRUD REST API that allows applications to store, retrieve, modify, and delete user preferences (theme, language, etc).",
         "tech_stack": ["Python", "Flask", "REST API"],
-        "github_url": "https://github.com/asalehtx/flask-portfolio",
+        "github_url": "https://github.com/asalehtx/adam-saleh-web-app-portfolio",
         "live_demo": "/api/users/user_1/settings"
     }
 ]

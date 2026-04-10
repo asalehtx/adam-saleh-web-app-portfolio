@@ -14,6 +14,7 @@ Data Visualization: Chart.js
 Deployment: Railway
 
 FEATURED PROJECTS
+
 Personal Finance Dashboard (Full-Stack)
 A complete, interactive financial tracking application that functions without page reloads.
 

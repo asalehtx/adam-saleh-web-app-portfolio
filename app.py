@@ -59,12 +59,13 @@ app = Flask(__name__)
 # Sample data representing your projects
 PROJECTS = [
     {
-        "id": 1,
-        "title": "User Configuration Manager",
-        "description": "A complete CRUD REST API that allows applications to store, retrieve, modify, and delete user preferences (theme, language, etc).",
-        "tech_stack": ["Python", "Flask", "REST API"],
+        "id": 3,
+        "title": "Personal Finance Dashboard & API",
+        "description": "A full-stack financial tracking application. The backend is powered by a Flask REST API that handles data aggregation, checks spending against dynamic budget limits, and generates CSV reports. The frontend features a fully responsive UI with asynchronous CRUD operations and real-time Chart.js data visualization, including categorical pie charts and interactive time-series line graphs with custom data grouping.",
+        "tech_stack": ["Python", "Flask", "JavaScript", "Chart.js", "CSS Flexbox"],
         "github_url": "https://github.com/asalehtx/flask-portfolio",
-        "live_demo": "/api/users/user_1/settings" 
+        "live_demo": "/api/finance/summary",
+        "dashboard_url": "/finance-dashboard"
     },
     {
         "id": 2,
@@ -76,12 +77,11 @@ PROJECTS = [
     },
     {
         "id": 3,
-        "title": "Personal Finance Engine",
-        "description": "A financial tracking API that aggregates ledger data, checks spending against dynamic budget limits, issues overspending alerts, and generates downloadable CSV reports.",
-        "tech_stack": ["Python", "Flask", "Chart.js", "CSV Generation"],
-        "github_url": "https://github.com/yourusername/flask-portfolio",
-        "live_demo": "/api/finance/summary",
-        "dashboard_url": "/finance-dashboard"  # <-- ADD THIS LINE
+        "title": "User Configuration Manager",
+        "description": "A complete CRUD REST API that allows applications to store, retrieve, modify, and delete user preferences (theme, language, etc).",
+        "tech_stack": ["Python", "Flask", "REST API"],
+        "github_url": "https://github.com/asalehtx/flask-portfolio",
+        "live_demo": "/api/users/user_1/settings"
     }
 ]
 
@@ -233,6 +233,30 @@ def add_transaction():
     TRANSACTIONS_DB.append(new_transaction)
     return jsonify({"message": "Transaction added", "data": new_transaction}), 201
 
+@app.route('/api/finance/transactions/<int:transaction_id>', methods=['PUT', 'DELETE'])
+def modify_transaction(transaction_id):
+    """Update or remove an existing transaction."""
+    global TRANSACTIONS_DB
+    
+    if request.method == 'DELETE':
+        # Rebuild the list, keeping everything EXCEPT the matching ID
+        TRANSACTIONS_DB = [t for t in TRANSACTIONS_DB if t['id'] != transaction_id]
+        return jsonify({"message": "Transaction deleted"}), 200
+        
+    if request.method == 'PUT':
+        data = request.get_json()
+        
+        # Find the transaction and update its values
+        for t in TRANSACTIONS_DB:
+            if t['id'] == transaction_id:
+                t['type'] = data.get('type', t['type'])
+                t['amount'] = float(data.get('amount', t['amount']))
+                t['category'] = data.get('category', t['category'])
+                t['date'] = data.get('date', t['date'])
+                return jsonify({"message": "Transaction updated", "data": t}), 200
+                
+        return jsonify({"error": "Transaction not found"}), 404
+
 @app.route('/api/finance/summary', methods=['GET'])
 def get_finance_summary():
     """Calculates totals, prepares data for the pie chart, and triggers alerts."""
@@ -262,7 +286,8 @@ def get_finance_summary():
             "net_savings": total_income - total_expenses
         },
         "chart_data": spending_by_category, # Use this in your frontend for the pie chart
-        "budget_alerts": alerts
+        "budget_alerts": alerts,
+        "transactions": TRANSACTIONS_DB
     }), 200
 
 @app.route('/api/finance/export/csv', methods=['GET'])

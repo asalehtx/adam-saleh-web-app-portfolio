@@ -26,7 +26,7 @@ NEVER give legal advice. If they ask a legal question, politely explain that an 
 
 # Initialize the Gemini model with the system instructions
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
+    model_name="gemini-2.5-flash",
     system_instruction=law_firm_prompt
 )
 

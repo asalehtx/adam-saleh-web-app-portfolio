@@ -383,7 +383,7 @@ def legal_chat():
         print(f"Gemini API Error: {e}")
         return jsonify({"reply": "I'm so sorry, we are experiencing a technical issue connecting you right now. Please call our office directly at 832-205-5978.", "status": "error"}), 500
     
-    @app.route('/legal-chat')
+@app.route('/legal-chat')
 def legal_chat_page():
     return render_template('legal.html')
 

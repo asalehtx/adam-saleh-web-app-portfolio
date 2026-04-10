@@ -153,25 +153,31 @@
     }
 
     #user-input {
-        flex: 1;
-        padding: 10px 15px;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        font-size: 16px; /* Prevents mobile auto-zoom */
-        outline: none;
-        min-width: 0;
-    }
+    flex: 1;
+    height: 45px; /* Explicit height */
+    padding: 0 15px; /* Only horizontal padding, height is fixed */
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 16px; /* Prevents mobile auto-zoom */
+    outline: none;
+    box-sizing: border-box; /* Crucial: includes padding/border in the 45px height */
+}
 
     .chat-input-area button {
-        background: #007bff;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.2s;
-    }
+    height: 45px; /* Matches input height exactly */
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0 20px; /* Horizontal padding for button width */
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; /* Crucial: includes padding/border in the 45px height */
+    transition: background 0.2s;
+}
 
     .chat-input-area button:hover { background: #0056b3; }
     .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }

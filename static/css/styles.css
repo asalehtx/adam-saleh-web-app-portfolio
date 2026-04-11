@@ -286,6 +286,37 @@ h1, h2, h3, h4, h5, h6, .logo {
 .actions-cell button { margin-right: 8px; padding: 6px 12px; border-radius: 4px; font-size: 13px; }
 .dashboard-footer { text-align: center; margin-top: 40px; }
 
+/* =========================================
+   8. AI SEO AUDITOR (seo.html)
+   ========================================= */
+.ai-report-content h3 { 
+    margin-top: 30px; 
+    margin-bottom: 15px; 
+    color: #ffffff; 
+    font-size: 22px; 
+    border-bottom: 1px solid #333; 
+    padding-bottom: 10px;
+}
+
+.ai-report-content h3:first-child {
+    margin-top: 0; /* Keeps the top of the report flush */
+}
+
+.ai-report-content ul { 
+    margin-left: 20px; 
+    margin-bottom: 20px; 
+}
+
+.ai-report-content li { 
+    margin-bottom: 10px; 
+    color: #cccccc; 
+    line-height: 1.6; 
+}
+
+.ai-report-content strong { 
+    color: #007bff; /* Makes the bold text pop with your brand blue */
+}
+
 @media screen and (max-width: 768px) {
     /* Mobile About Section */
     .about-container {

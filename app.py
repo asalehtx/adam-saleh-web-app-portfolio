@@ -1,3 +1,5 @@
+import requests
+from bs4 import BeautifulSoup
 import os
 import csv
 import io
@@ -324,15 +326,55 @@ def run_audit():
     data = request.get_json()
     target_url = data.get('url')
     
-    # Basic validation
+    # 1. Basic validation and formatting
     if not target_url:
         return jsonify({"error": "Please provide a valid URL."}), 400
         
-    # Phase 1 Test: Just return a success message to prove the frontend and backend are talking!
-    return jsonify({
-        "message": f"Success! The backend received the URL: {target_url}. We will add the Web Scraper here in Phase 2.",
-        "status": "success"
-    }), 200
+    if not target_url.startswith('http'):
+        target_url = 'https://' + target_url
+
+    try:
+        # 2. Download the website (We add a User-Agent so websites don't block us as a bot)
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        response = requests.get(target_url, headers=headers, timeout=10)
+        response.raise_for_status() # Check for HTTP errors like 404
+        
+        # 3. Parse the HTML with BeautifulSoup
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # 4. Extract the SEO & Accessibility Data
+        title = soup.title.string if soup.title else "No title tag found"
+        
+        meta_desc_tag = soup.find('meta', attrs={'name': 'description'})
+        meta_desc = meta_desc_tag['content'] if meta_desc_tag and meta_desc_tag.has_attr('content') else "No meta description found"
+        
+        h1_tags = [h1.get_text(strip=True) for h1 in soup.find_all('h1')]
+        h2_count = len(soup.find_all('h2'))
+        
+        images = soup.find_all('img')
+        missing_alt_count = sum(1 for img in images if not img.get('alt'))
+        
+        # 5. Package the scraped data into a dictionary
+        scraped_data = {
+            "title": title,
+            "meta_description": meta_desc,
+            "h1_tags": h1_tags,
+            "h2_count": h2_count,
+            "total_images": len(images),
+            "images_missing_alt": missing_alt_count
+        }
+        
+        # 6. Send the raw data back to the frontend to verify it worked!
+        return jsonify({
+            "message": "Successfully scraped the website!",
+            "data": scraped_data,
+            "status": "success"
+        }), 200
+
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": f"Could not access website. It may be protected or offline."}), 400
+    except Exception as e:
+        return jsonify({"error": f"An error occurred while parsing: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

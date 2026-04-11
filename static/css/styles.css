@@ -290,12 +290,12 @@ h1, h2, h3, h4, h5, h6, .logo {
     /* Mobile About Section */
     .about-container {
         flex-direction: column; /* Stacks the photo on top of the text */
-        gap: 25px;
+        gap: 10px;
     }
     
     .about-image {
         flex:none;
-        width: 150px; /* Shrinks the photo slightly for mobile screens */
+        width: 300px; /* Shrinks the photo slightly for mobile screens */
         margin: 0 auto; /* Centers the photo */
     }
     

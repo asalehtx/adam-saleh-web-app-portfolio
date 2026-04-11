@@ -1,31 +1,138 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="project-detail-container">
-        <h2>{{ project.title }}</h2>
+<div class="project-page-container">
+    <h1 class="project-title">{{ project.title }}</h1>
+    
+    <div class="project-content">
+        <p class="project-desc">{{ project.description }}</p>
         
-        <div class="project-info">
-            <p><strong>Description:</strong> {{ project.description }}</p>
-            <p><strong>Tech Stack:</strong> {{ project.tech_stack | join(', ') }}</p>
+        <div class="tech-stack-container">
+            <span class="stack-label">Tech Stack</span>
+            <div class="tech-tags">
+                {% for tech in project.tech_stack %}
+                    <span class="tech-tag">{{ tech }}</span>
+                {% endfor %}
+            </div>
         </div>
-
-        <div class="project-links">
-            {% if project.github_url %}
-                <a href="{{ project.github_url }}" target="_blank" class="button">View Source on GitHub</a>
-            {% endif %}
-        </div>
-        <div>
-            {% if project.live_demo %}
-                <a href="{{ project.live_demo }}" target="_blank" class="button">Test Live API Demo</a>
-            {% endif %}
-        </div>
-        <div>
-            {% if project.dashboard_url %}
-                <a href="{{ project.dashboard_url }}" class="btn">{{ project.button_label }}</a>
-            {% endif %}
-        </div>    
-        
-        <br><br>
-        <a href="{{ url_for('home') }}">&larr; Back to Projects</a>
     </div>
+
+    <div class="project-actions">
+        {% if project.dashboard_url %}
+            <a href="{{ project.dashboard_url }}" class="btn primary">{{ project.button_label }}</a>
+        {% endif %}
+        
+        {% if project.live_demo %}
+            <a href="{{ project.live_demo }}" target="_blank" class="btn primary">Test Live API Demo</a>
+        {% endif %}
+
+        {% if project.github_url %}
+            <a href="{{ project.github_url }}" target="_blank" class="btn outline">View Source on GitHub</a>
+        {% endif %}
+    </div>    
+    
+    <div class="back-link-container">
+        <a href="{{ url_for('home') }}#projects" class="back-link">&larr; Back to Projects</a>
+    </div>
+</div>
+
+<style>
+    /* --- Page Container --- */
+    .project-page-container {
+        max-width: 800px;
+        margin: 120px auto 50px auto; /* 120px pushes it down past your fixed Navbar */
+        padding: 40px;
+        background: #1a1a1a; /* Slightly lighter than the base body for a card effect */
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        border: 1px solid #333;
+    }
+
+    .project-title {
+        font-size: 42px;
+        color: #ffffff;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+
+    .project-desc {
+        font-size: 18px;
+        color: #cccccc;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    /* --- Tech Stack Pills --- */
+    .tech-stack-container {
+        margin-bottom: 40px;
+    }
+
+    .stack-label {
+        display: block;
+        color: #007bff;
+        margin-bottom: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .tech-tag {
+        background: #252525;
+        border: 1px solid #444;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: #eeeeee;
+        font-weight: 500;
+    }
+
+    /* --- Button System --- */
+    .project-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #333;
+    }
+
+    .btn { 
+        padding: 12px 26px; 
+        border-radius: 30px; 
+        text-decoration: none; 
+        font-weight: 600; 
+        transition: all 0.3s ease; 
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        font-size: 15px;
+    }
+    
+    .primary { background: #007bff; color: #fff; border: 2px solid #007bff; }
+    .primary:hover { background: #0056b3; border-color: #0056b3; transform: translateY(-2px); }
+
+    .outline { border: 2px solid transparent; color: #fff; background: #333; }
+    .outline:hover { background: #444; transform: translateY(-2px); }
+
+    /* --- Back Link --- */
+    .back-link-container {
+        text-align: left;
+    }
+
+    .back-link {
+        color: #888;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+        font-size: 15px;
+    }
+    .back-link:hover { color: #ffffff; }
+</style>
 {% endblock %}

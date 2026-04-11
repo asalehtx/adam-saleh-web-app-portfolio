@@ -366,7 +366,8 @@ def run_audit():
         # 4. Extract the SEO & Accessibility Data
         title = soup.title.string if soup.title else "No title tag found"
         
-        meta_desc_tag = soup.find('meta', attrs={'name': 'description'})
+        # We use a lambda function to convert the 'name' attribute to lowercase before checking it
+        meta_desc_tag = soup.find('meta', attrs={'name': lambda x: x and x.lower() == 'description'})
         meta_desc = meta_desc_tag['content'] if meta_desc_tag and meta_desc_tag.has_attr('content') else "No meta description found"
         
         h1_tags = [h1.get_text(strip=True) for h1 in soup.find_all('h1')]

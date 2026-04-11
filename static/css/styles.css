@@ -195,7 +195,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 #disclaimer-arrow { transition: transform 0.3s; font-size: 10px; color: #666; }
 .rotate { transform: rotate(180deg); }
 .input-row { display: flex; gap: 10px; align-items: center; width: 100%; margin-top: 5px; }
-#user-input { flex: 1; height: 45px; padding: 0 15px; border: 1px solid #ddd; border-radius: 25px; font-size: 16px; color: #333; outline: none; box-sizing: border-box; }
+#user-input { flex: 1; height: 45px; padding: 0 15px; border: 1px solid #ddd; border-radius: 25px; font-size: 16px; color: #333; outline: none; box-sizing: border-box; margin-bottom: 14px;}
 .chat-input-area button { height: 45px; background: #007bff; color: white; border: none; padding: 0 20px; border-radius: 25px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; box-sizing: border-box; transition: background 0.2s; margin-bottom: 14px; }
 .chat-input-area button:hover { background: #0056b3; }
 

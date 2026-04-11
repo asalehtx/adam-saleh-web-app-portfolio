@@ -1,23 +1,170 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Projects</h2>
-    <div class="project-grid">
-        {% for project in projects %}
-            <div class="project-card">
-                <h3>{{ project.title }}</h3>
-                <p>{{ project.description }}</p>
-                <p><strong>Stack:</strong> {{ project.tech_stack | join(', ') }}</p>
-                
-                <a href="{{ url_for('project_detail', project_id=project.id) }}">View Details</a>
-                
-                {% if project.dashboard_url %}
-                    <a href="{{ project.dashboard_url }}" style="margin-left: 10px; font-weight: bold;">
-                        {{ project.button_label }}
-                    </a>
-                {% endif %}
-
+<main class="scroll-container">
+    
+    <section id="hero" class="snap-section">
+        <div class="content hero-content">
+            <p class="greeting">Hi! I'm Adam Saleh</p>
+            <h1 class="title">Full Stack Software Engineer</h1>
+            <p class="subtitle">Specializing in modern Web Development and Artificial Intelligence.</p>
+            <div class="button-group">
+                <a href="#" class="btn primary">Download CV</a>
+                <a href="#contact" class="btn secondary">Contact Me</a>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    </section>
+
+    <section id="about" class="snap-section bg-alt">
+        <div class="content text-center">
+            <h2>About Me</h2>
+            <p class="subtitle">A brief introduction to my journey as a software engineer.</p>
+            <a href="#" class="btn outline">Learn More</a>
+        </div>
+    </section>
+
+    <section id="projects" class="snap-section">
+        <div class="content text-center" style="max-width: 1000px;">
+            <h2>Selected Works</h2>
+            <p class="subtitle">Projects I've built and am currently working on.</p>
+            
+            <div class="project-grid">
+                {% for project in projects %}
+                    <div class="card project-card">
+                        <h3>{{ project.title }}</h3>
+                        <p class="card-desc">{{ project.description }}</p>
+                        <p class="card-stack"><strong>Stack:</strong> {{ project.tech_stack | join(', ') }}</p>
+                        
+                        <div class="card-buttons">
+                            <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn outline btn-sm">View Details</a>
+                            
+                            {% if project.dashboard_url %}
+                                <a href="{{ project.dashboard_url }}" class="btn primary btn-sm">
+                                    {{ project.button_label }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="snap-section bg-alt">
+        <div class="content text-center">
+            <h2>Get In Touch</h2>
+            <p class="subtitle">Feel free to contact me if you have any questions or just want to say hi.</p>
+            <a href="mailto:hello@example.com" class="email-link">hello@example.com</a>
+        </div>
+    </section>
+
+</main>
+
+<style>
+    /* --- Base Layout & Typography --- */
+    body, html {
+        margin: 0;
+        padding: 0;
+        background-color: #121212;
+        color: #ffffff;
+        font-family: 'Jost', sans-serif;
+        /* Hide regular scrollbar to let the snap container handle scrolling */
+        overflow: hidden; 
+    }
+
+    h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+
+    /* --- Scroll Snapping Logic --- */
+    .scroll-container {
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+
+    .snap-section {
+        height: 100vh;
+        width: 100%;
+        scroll-snap-align: start;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .bg-alt { background-color: #1a1a1a; }
+
+    /* --- Text Styling --- */
+    .content { max-width: 800px; width: 100%; }
+    .hero-content { text-align: left; }
+    .text-center { text-align: center; }
+
+    .greeting { color: #007bff; font-size: 20px; margin-bottom: 10px; font-weight: 600; }
+    .title { font-size: 56px; font-weight: 700; margin-bottom: 20px; line-height: 1.1; }
+    .subtitle { font-size: 18px; color: #a0a0a0; margin-bottom: 40px; }
+
+    /* --- Button System --- */
+    .button-group { display: flex; gap: 20px; }
+    .btn { 
+        padding: 12px 30px; 
+        border-radius: 30px; 
+        text-decoration: none; 
+        font-weight: 600; 
+        transition: all 0.3s ease; 
+        cursor: pointer;
+        display: inline-block;
+    }
+    .btn-sm { padding: 8px 16px; font-size: 14px; } /* Smaller buttons for cards */
+    
+    .primary { background: #007bff; color: #fff; border: 2px solid #007bff; }
+    .primary:hover { background: #0056b3; border-color: #0056b3; transform: translateY(-2px); }
+
+    .secondary { background: rgba(255, 255, 255, 0.1); color: #fff; border: 2px solid transparent; }
+    .secondary:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+
+    .outline { border: 2px solid #007bff; color: #007bff; }
+    .outline:hover { background: #007bff; color: #fff; transform: translateY(-2px); }
+
+    /* --- Dynamic Project Cards (The Jinja Section) --- */
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+    }
+
+    .project-card {
+        background: #252525;
+        padding: 30px 20px;
+        border-radius: 12px;
+        text-align: left;
+        transition: transform 0.3s;
+        border: 1px solid #333;
+        display: flex;
+        flex-direction: column;
+    }
+    .project-card:hover { transform: translateY(-5px); border-color: #007bff; }
+    
+    .project-card h3 { margin-top: 0; margin-bottom: 10px; font-size: 22px; }
+    .card-desc { font-size: 15px; color: #ccc; margin-bottom: 15px; flex-grow: 1; line-height: 1.5; }
+    .card-stack { font-size: 13px; color: #888; margin-bottom: 20px; }
+    
+    .card-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    /* --- Contact Footer --- */
+    .email-link { 
+        font-size: 40px; 
+        color: #007bff; 
+        text-decoration: none; 
+        font-weight: 700; 
+        display: block; 
+        transition: color 0.3s;
+    }
+    .email-link:hover { color: #fff; }
+</style>
 {% endblock %}

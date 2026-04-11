@@ -106,11 +106,12 @@ h1, h2, h3, h4, h5, h6, .logo {
 
 .about-image img {
     width: 100%;
-    height: auto;
+    aspect-ratio: 1/1;
     border-radius: 15px; /* Gives the image soft, modern corners */
     box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Adds a subtle floating shadow */
     border: 2px solid #333; /* Matches your dark mode theme */
     object-fit: cover;
+    object-position: center top;
 }
 
 .about-text {
@@ -293,7 +294,8 @@ h1, h2, h3, h4, h5, h6, .logo {
     }
     
     .about-image {
-        width: 200px; /* Shrinks the photo slightly for mobile screens */
+        flex:none;
+        width: 150px; /* Shrinks the photo slightly for mobile screens */
         margin: 0 auto; /* Centers the photo */
     }
     

@@ -1,0 +1,24 @@
+name: Purge Cloudflare Cache
+
+# This tells GitHub to run this script every time you push to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  purge-cache:
+    runs-on: ubuntu-latest
+    steps:
+      # We add a 30-second delay to give Railway time to finish deploying your new code 
+      # before we clear the cache. You can adjust this if Railway takes longer!
+      - name: Wait for Railway Deployment
+        run: sleep 30
+
+      # This hits the Cloudflare API to wipe the cache using your hidden secrets
+      - name: Purge Cloudflare Cache
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+          -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{"purge_everything":true}'

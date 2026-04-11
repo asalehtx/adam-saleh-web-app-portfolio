@@ -92,7 +92,43 @@ h1, h2, h3, h4, h5, h6, .logo {
 /* =========================================
    4. HOME PAGE (index.html)
    ========================================= */
-.scroll-container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+/* --- About Section Layout --- */
+.about-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.about-image {
+    flex: 0 0 280px; /* Forces the image to stay exactly 280px wide on desktop */
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px; /* Gives the image soft, modern corners */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Adds a subtle floating shadow */
+    border: 2px solid #333; /* Matches your dark mode theme */
+    object-fit: cover;
+}
+
+.about-text {
+    font-size: 17px;
+    color: #cccccc;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0; /* Removes extra spacing below the last paragraph */
+}
+
+   .scroll-container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
 
 .snap-section {
     min-height: 100vh; width: 100%; scroll-snap-align: start;
@@ -250,6 +286,17 @@ h1, h2, h3, h4, h5, h6, .logo {
 .dashboard-footer { text-align: center; margin-top: 40px; }
 
 @media screen and (max-width: 768px) {
+    /* Mobile About Section */
+    .about-container {
+        flex-direction: column; /* Stacks the photo on top of the text */
+        gap: 25px;
+    }
+    
+    .about-image {
+        width: 200px; /* Shrinks the photo slightly for mobile screens */
+        margin: 0 auto; /* Centers the photo */
+    }
+    
     .data-table, .data-table tbody, .data-table tr, .data-table td { display: block; width: 100%; box-sizing: border-box; }
     .data-table thead { display: none; }
     .data-table tr { margin-bottom: 15px; background: #252525; border: 1px solid #444; border-radius: 8px; padding: 10px; }

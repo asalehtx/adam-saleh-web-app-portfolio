@@ -6,28 +6,27 @@
     <p>An intelligent, empathetic chatbot designed for personal injury law firms. Built using the Google Gemini API, it captures leads, validates user distress, and pre-qualifies potential cases through natural conversation before routing them to a human attorney.</p>
     <p>Click the chat icon in the bottom right to start a conversation with the AI assistant.</p>
     <p><strong>Tech Stack:</strong> Python, Flask, Gemini API, JavaScript, CSS</p>
+    
+    <br>
+    <a href="{{ url_for('home') }}" class="back-link">&larr; Back to Projects</a>
 </div>
 
-<br><br>
-        <a href="{{ url_for('home') }}">&larr; Back to Projects</a>
 <div id="chat-widget-button" onclick="toggleChat()">
     <span>💬</span>
 </div>
 
 <div id="chat-widget-window" class="chat-container" style="display: none;">
     <div class="chat-header">
-        <div class="chat-header">
         <div class="header-profile">
             <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Paralegal Avatar" class="avatar">
             <span>AI Legal Assistant</span>
         </div>
         <button onclick="toggleChat()" class="close-btn">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
-</button>
-    </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
     </div>
 
     <div id="chat-box" class="chat-box">
@@ -53,6 +52,24 @@
 </div>
 
 <style>
+    /* --- Page Content Styling --- */
+    .demo-container {
+        max-width: 800px;
+        margin: 120px auto 0 auto; /* Pushes content down below the fixed navbar */
+        padding: 20px;
+    }
+    
+    .demo-container h2 { margin-bottom: 15px; color: #fff; }
+    .demo-container p { margin-bottom: 10px; color: #ccc; line-height: 1.6; }
+    
+    .back-link {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+    .back-link:hover { color: #fff; }
+
     /* --- 1. Floating Widget UI --- */
     #chat-widget-button {
         position: fixed;
@@ -89,6 +106,7 @@
         flex-direction: column;
         overflow: hidden;
         z-index: 1001;
+        color: #333; /* Ensures chat text stays dark despite the global dark mode */
     }
 
     /* --- 2. Chat Header & Avatar --- */
@@ -107,8 +125,8 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        flex: 1; /* Forces section to stretch and push the button right */
-        min-width: 0; /* Allows the text to shrink/truncate without breaking layout */
+        flex: 1; 
+        min-width: 0; 
     }
 
     .header-profile span {
@@ -234,6 +252,7 @@
         border: 1px solid #ddd;
         border-radius: 25px;
         font-size: 16px; 
+        color: #333; /* Prevents text from being white on white */
         outline: none;
         box-sizing: border-box; 
     }
@@ -258,10 +277,10 @@
 </style>
 
 <script>
-    let nudgeTimer; // This holds the 10-second countdown
-    let nudgeSent = false; // --- NEW: Remembers if the nudge was already sent ---
+    let nudgeTimer;
+    let nudgeSent = false; 
 
-    // Toggle Chat Window visibility
+    // Fixed the duplicated function issue here
     function toggleChat() {
         const chatWindow = document.getElementById('chat-widget-window');
         const isHidden = chatWindow.style.display === 'none';
@@ -269,30 +288,12 @@
         chatWindow.style.display = isHidden ? 'flex' : 'none';
         
         if (isHidden) {
-            // The chat was just opened!
-            // Toggle Chat Window visibility
-    function toggleChat() {
-        const chatWindow = document.getElementById('chat-widget-window');
-        const isHidden = chatWindow.style.display === 'none';
-        
-        chatWindow.style.display = isHidden ? 'flex' : 'none';
-        
-        if (isHidden) {
-            // The chat was just opened!
-            startNudgeTimer(); // Start the 10-second clock immediately
+            startNudgeTimer(); 
         } else {
-            // The chat was just closed!
-            clearTimeout(nudgeTimer); // Pause the clock so it doesn't trigger in the background
-        }
-    }
-            startNudgeTimer(); // Start the 10-second clock immediately
-        } else {
-            // The chat was just closed!
-            clearTimeout(nudgeTimer); // Pause the clock so it doesn't trigger in the background
+            clearTimeout(nudgeTimer); 
         }
     }
 
-    // Toggle Legal Disclaimer text
     function toggleDisclaimer() {
         const content = document.getElementById('disclaimer-text');
         const arrow = document.getElementById('disclaimer-arrow');
@@ -300,12 +301,10 @@
         arrow.classList.toggle('rotate');
     }
 
-    // Handle Enter key for sending messages
     function handleKeyPress(event) {
         if (event.key === 'Enter') sendMessage();
     }
 
-    // AJAX Call to Python Backend
     async function sendMessage() {
         const input = document.getElementById('user-input');
         const chatBox = document.getElementById('chat-box');
@@ -313,16 +312,13 @@
 
         if (!message) return;
 
-        // Stop the nudge timer because the user responded
         clearTimeout(nudgeTimer);
 
-        // 1. Add User Message to UI
         chatBox.innerHTML += `<div class="msg user">${message}</div>`;
         input.value = '';
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
-            // 2. Fetch response from Flask API
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -330,41 +326,30 @@
             });
             const data = await response.json();
             
-            // 3. Add Bot Reply to UI
             chatBox.innerHTML += `<div class="msg bot">${data.reply}</div>`;
-
-            // Start the timer again now that the bot has finished speaking
             startNudgeTimer();
 
         } catch (error) {
             chatBox.innerHTML += `<div class="msg bot" style="color: #dc3545;">Connection error. Please try again.</div>`;
         }
         
-        // 4. Scroll to bottom
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function startNudgeTimer() {
-        // Clear any existing timer so they don't stack up
         clearTimeout(nudgeTimer);
-
-        // --- NEW: If the nudge was already sent, stop right here! ---
         if (nudgeSent) return;
 
-        // Start a new 10-second countdown
         nudgeTimer = setTimeout(() => {
             const chatBox = document.getElementById('chat-box');
-            
-            // Only send the nudge if the window is currently open
             const chatWindow = document.getElementById('chat-widget-window');
+            
             if (chatWindow.style.display !== 'none') {
                 chatBox.innerHTML += `<div class="msg bot">I'm here if you have any questions or need help!</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
-                
-                // --- NEW: Mark the nudge as sent so it never triggers again ---
                 nudgeSent = true; 
             }
-        }, 10000); // 10000 milliseconds = 10 seconds
+        }, 10000); 
     }
 </script>
 {% endblock %}

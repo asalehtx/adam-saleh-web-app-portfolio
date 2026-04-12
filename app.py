@@ -384,26 +384,35 @@ def run_audit():
         # 5. Fetch Official Google PageSpeed Insights (PSI) Scores
         pagespeed_key = os.environ.get("PAGESPEED_API_KEY")
         
-        # Build the URL. If you have a key, attach it!
-        psi_url = f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url={target_url}&category=performance&category=seo"
+        # We use a params dictionary so the requests library handles all the messy URL encoding for us!
+        psi_url = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+        api_params = {
+            "url": target_url,
+            "category": ["performance", "seo"]
+        }
+        
         if pagespeed_key:
-            psi_url += f"&key={pagespeed_key}"
+            api_params["key"] = pagespeed_key
             
         try:
-            # Increased timeout to 40s because Google's Lighthouse is slow
-            psi_response = requests.get(psi_url, timeout=40)
+            # Send the request with our safely encoded parameters
+            psi_response = requests.get(psi_url, params=api_params, timeout=40)
             psi_data = psi_response.json()
             
-            # Check if Google sent back an error instead of data
+            # Check if Google sent back an error (like an invalid API key)
             if 'error' in psi_data:
-                print(f"PageSpeed API Blocked us: {psi_data['error'].get('message')}")
+                print(f"PageSpeed API Error: {psi_data['error'].get('message')}")
                 perf_score, seo_score = "N/A", "N/A"
             else:
                 lighthouse = psi_data.get('lighthouseResult', {}).get('categories', {})
                 
-                # Safely extract scores
-                perf_score = int(lighthouse.get('performance', {}).get('score', 0) * 100) if lighthouse.get('performance') else "N/A"
-                seo_score = int(lighthouse.get('seo', {}).get('score', 0) * 100) if lighthouse.get('seo') else "N/A"
+                # Safely extract scores. Google sometimes returns 'null' (None in Python) 
+                # if it fails to calculate a specific metric. We must handle that to avoid a math crash!
+                perf_raw = lighthouse.get('performance', {}).get('score')
+                seo_raw = lighthouse.get('seo', {}).get('score')
+                
+                perf_score = int(perf_raw * 100) if perf_raw is not None else "N/A"
+                seo_score = int(seo_raw * 100) if seo_raw is not None else "N/A"
                 
         except Exception as e:
             print(f"PageSpeed Request Failed: {e}")

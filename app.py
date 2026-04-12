@@ -5,13 +5,14 @@ import csv
 import io
 from flask import Flask, render_template, jsonify, request, Response, redirect, url_for
 from dotenv import load_dotenv # type: ignore
-import google.generativeai as genai # type: ignore
+from google import genai
+from google.genai import types
 
 # Load secret variables from the .env file
 load_dotenv()
 
-# Configure Gemini with your API key
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+# Initialize the new Gemini Client
+gemini_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Initialize the Flask app ONLY ONCE
 app = Flask(__name__)
@@ -327,7 +328,12 @@ def legal_chat():
     session_id = data.get("session_id", "demo_user")
 
     if session_id not in active_chats:
-        active_chats[session_id] = model.start_chat(history=[])
+        active_chats[session_id] = gemini_client.chats.create(
+            model="gemini-2.5-flash",
+            config=types.GenerateContentConfig(
+                system_instruction=law_firm_prompt
+            )
+        )
 
     chat_session = active_chats[session_id]
 
@@ -432,7 +438,13 @@ def run_audit():
         
         # 7. Ask Gemini to analyze the data
         try:
-            ai_response = seo_model.generate_content(ai_input)
+            ai_response = gemini_client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=ai_input,
+                config=types.GenerateContentConfig(
+                    system_instruction=seo_prompt
+                )
+            )
             report_html = ai_response.text
         except Exception as e:
             print(f"Gemini AI Error: {e}")

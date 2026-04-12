@@ -435,9 +435,17 @@ def run_audit():
                 )
             )
             report_html = ai_response.text
+            
         except Exception as e:
-            print(f"Gemini AI Error: {e}")
-            return jsonify({"error": "Failed to generate AI analysis."}), 500
+            error_msg = str(e)
+            print(f"Gemini AI Error: {error_msg}")
+            
+            # Catch the specific 429 Rate Limit error
+            if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+                return jsonify({"error": "Our AI is analyzing a high volume of sites right now. Please wait 30 seconds and try again!"}), 429
+                
+            # Fallback for any other API errors
+            return jsonify({"error": "Failed to generate AI analysis. Please try again later."}), 500
         
         # 8. Send the scores AND the AI HTML report back to the frontend
         return jsonify({

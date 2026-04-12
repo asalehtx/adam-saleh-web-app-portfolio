@@ -54,10 +54,10 @@
             if (response.ok) {
                 // Function to assign colors based on Google's standard thresholds
                 const getColor = (score) => {
-                    if (score === "N/A") return "#888"; // Gray for error
-                    if (score >= 90) return "#0cce6b"; // Green
-                    if (score >= 50) return "#ffa400"; // Orange
-                    return "#ff4e42"; // Red
+                    if (score === "N/A") return "#888"; 
+                    if (score >= 90) return "#0cce6b"; 
+                    if (score >= 50) return "#ffa400"; 
+                    return "#ff4e42"; 
                 };
 
                 let htmlContent = `<p style="color: #2ecc71; font-weight: 600; margin-bottom: 25px;">✅ ${data.message}</p>`;
@@ -84,18 +84,55 @@
                 htmlContent += `<div class="ai-report-content" style="color: #eee;">${data.report}</div>`;
                 
                 output.innerHTML = htmlContent;
+                
+                // Re-enable button immediately on success
+                btn.disabled = false;
+                btn.innerText = 'Run Audit';
+                btn.style.opacity = '1';
+
             } else {
                 output.innerHTML = `<p style="color: #e74c3c; font-weight: 600;">❌ Error: ${data.error}</p>`;
+                
+                // CHECK FOR RATE LIMIT (429 Error)
+                if (response.status === 429) {
+                    urlInput.disabled = true; // Lock the input field
+                    urlInput.style.opacity = '0.5';
+                    
+                    let timeLeft = 30; // Start 30 second countdown
+                    btn.innerText = `Please wait ${timeLeft}s...`;
+                    
+                    // Create a timer that ticks down every 1 second (1000ms)
+                    const cooldownTimer = setInterval(() => {
+                        timeLeft--;
+                        btn.innerText = `Please wait ${timeLeft}s...`;
+                        
+                        // When timer hits 0, unlock everything
+                        if (timeLeft <= 0) {
+                            clearInterval(cooldownTimer);
+                            urlInput.disabled = false;
+                            urlInput.style.opacity = '1';
+                            btn.disabled = false;
+                            btn.innerText = 'Run Audit';
+                            btn.style.opacity = '1';
+                        }
+                    }, 1000);
+                    
+                } else {
+                    // For any other normal error, reset button immediately
+                    btn.disabled = false;
+                    btn.innerText = 'Run Audit';
+                    btn.style.opacity = '1';
+                }
             }
         } catch (error) {
             loadingText.style.display = 'none';
             output.innerHTML = `<p style="color: #e74c3c; font-weight: 600;">❌ Network Error: Could not connect to the server.</p>`;
+            
+            // Re-enable button immediately on network crash
+            btn.disabled = false;
+            btn.innerText = 'Run Audit';
+            btn.style.opacity = '1';
         }
-        
-        // Reset button
-        btn.disabled = false;
-        btn.innerText = 'Run Audit';
-        btn.style.opacity = '1';
     });
 </script>
 {% endblock %}

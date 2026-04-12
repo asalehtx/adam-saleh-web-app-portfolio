@@ -26,13 +26,13 @@ def redirect_railway_to_custom():
         return redirect('https://hearhear.agency' + request.full_path, code=301)
 
 # --- AI CHATBOT SETUP ---
-law_firm_prompt = """You are the empathetic first point of contact for the Rahgozar Law Firm.
+law_firm_prompt = """You are the empathetic first point of contact for a personal injury law firm.
 Your goal is to listen to the user's situation, validate their distress, and determine if they have a viable case.
 Ask ONE gentle follow-up question at a time to find out:
 1) Date of the injury.
 2) Type of accident (e.g., car crash, slip and fall).
 3) If they sought medical treatment.
-Once you have got that info, just ask for their name and phone number so attorney Pegah Rahgozar can give them a call. 
+Once you have got that info, just ask for their name and phone number so an attorney can give them a call. 
 NEVER give legal advice. If they ask a legal question, politely explain that an attorney will need to answer that during their consultation."""
 
 # Temporary memory to keep track of active user sessions
@@ -331,7 +331,7 @@ def legal_chat():
         return jsonify({"reply": response.text, "status": "success"})
     except Exception as e:
         print(f"Gemini API Error: {e}")
-        return jsonify({"reply": "I'm so sorry, we are experiencing a technical issue connecting you right now. Please call our office directly at 832-205-5978.", "status": "error"}), 500
+        return jsonify({"reply": "I'm so sorry, we are experiencing a technical issue connecting you right now. Please call our office directly at 555-555-5555.", "status": "error"}), 500
     
 @app.route('/legal-chat')
 def legal_chat_page():

@@ -35,12 +35,6 @@ Ask ONE gentle follow-up question at a time to find out:
 Once you have got that info, just ask for their name and phone number so attorney Pegah Rahgozar can give them a call. 
 NEVER give legal advice. If they ask a legal question, politely explain that an attorney will need to answer that during their consultation."""
 
-# Initialize the Gemini model with the system instructions
-model = genai.GenerativeModel(
-    model_name="gemini-2.5-flash",
-    system_instruction=law_firm_prompt
-)
-
 # Temporary memory to keep track of active user sessions
 active_chats = {}
 
@@ -64,11 +58,6 @@ Include these four sections exactly:
 <h3>🚀 Actionable Next Steps</h3>
 (Provide 2-3 specific, non-generic steps the webmaster should take immediately to improve their scores, SEO, and accessibility)
 """
-
-seo_model = genai.GenerativeModel(
-    model_name="gemini-2.5-flash",
-    system_instruction=seo_prompt
-)
 
 
 # --- MOCK DATABASES ---
